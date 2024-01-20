@@ -1,0 +1,20 @@
+{
+    "params":
+    {
+        "local_server":"True",
+        "local_uri":"mysql+pymysql://root:@localhost/coding ninjas",
+        "prod_uri":" mysql+pymysql://root:@localhost/coding ninjas",
+        "fb_url":"https://facebook.com/codingninjas",
+        "tw_url":"https://twitter.com/codingninjas",
+        "gh_url":"https://github.com/codingninjas",
+        "blog_name":"Coding Ninjas",
+        "gmail-user":"your-mail@gmail.com",
+        "gmail-password":"gamilpassword",
+        "about_text": "Hi my name is Linkedin and I provide jobs to people",
+        "no_of_posts": 2,
+        "login_image":"logo.svg",
+        "admin_user": "creator",
+        "admin_password": "ayomate",
+        "upload_location": "C:\\Users\\KIIT\\Desktop\\Flask\\static\\uploads"
+    }
+}
