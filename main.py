@@ -88,7 +88,7 @@ def about():
 @app.route("/delete/<string:sno>" , methods=['GET', 'POST'])
 def delete(sno):
     print("Delete route called with sno:", sno)
-    if "user" in session and session['user']==params['admin_user']:
+    if ('user' in session and session['user']==params['admin_user']):
         post = Posts.query.filter_by(sno=sno).first()
         db.session.delete(post)
         db.session.commit()
@@ -97,48 +97,48 @@ def delete(sno):
 
 @app.route("/edit/<string:sno>", methods=['GET', 'POST'])
 def edit(sno):
-    if 'user' in session and session['user'] == params['admin_user']:
-            if request.method == 'POST':
+    if ('user' in session and session['user'] == params['admin_user']):
+        if request.method == 'POST':
+            title = request.form.get('title')
+            tagline = request.form.get('tagline')
+            slug = request.form.get('slug')
+            content = request.form.get('content')
+            img_file = request.form.get('img_file')
+            date = datetime.now()
+
+            if sno == '0':
                 title = request.form.get('title')
                 tagline = request.form.get('tagline')
                 slug = request.form.get('slug')
                 content = request.form.get('content')
                 img_file = request.form.get('img_file')
                 date = datetime.now()
-
-                if sno == '0':
-                    title = request.form.get('title')
-                    tagline = request.form.get('tagline')
-                    slug = request.form.get('slug')
-                    content = request.form.get('content')
-                    img_file = request.form.get('img_file')
-                    date = datetime.now()
-                    post = Posts(title=title, tagline=tagline, slug=slug, content=content, img_file=img_file, date=date)
-                    db.session.add(post)
-                    db.session.commit()
+                post = Posts(title=title, tagline=tagline, slug=slug, content=content, img_file=img_file, date=date)
+                db.session.add(post)
+                db.session.commit()
         
-                else:
-                    post = Posts.query.filter_by(sno=sno).first()
-                    post.title = title
-                    post.tagline = tagline
-                    post.slug = slug
-                    post.content = content
-                    post.img_file = img_file
-                    post.date = date
-                    db.session.commit()
-                    return redirect('/edit/' + sno)
-    post = Posts.query.filter_by(sno=sno).first()
-    return render_template('edit.html', params=params, post=post, sno=sno)
+            else:
+                post = Posts.query.filter_by(sno=sno).first()
+                post.title = title
+                post.tagline = tagline
+                post.slug = slug
+                post.content = content
+                post.img_file = img_file
+                post.date = date
+                db.session.commit()
+            return redirect('/edit/'+ sno)
+        post = Posts.query.filter_by(sno=sno).first()
+        return render_template('edit.html', params=params, post=post, sno=sno)
 
 
 @app.route("/uploader", methods= ['GET', 'POST'])
 def uploader():
-     if 'user' in session and session['user'] == params['admin_user']:
+    if 'user' in session and session['user'] == params['admin_user']:
         if (request.method == 'POST'):
             f= request.files['file1']
             if not os.path.exists(app.config['UPLOAD_FOLDER']):
                 os.makedirs(app.config['UPLOAD_FOLDER'])
-            f.save(os.path.join(app.config['UPLOAD_FOLDER'],secure_filename(f.filename)))
+                f.save(os.path.join(app.config['UPLOAD_FOLDER'],secure_filename(f.filename)))
             return "Uploaded successfully!"
  
 @app.route("/logout")
